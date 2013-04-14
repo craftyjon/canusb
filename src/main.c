@@ -1,34 +1,21 @@
-/**
- * \file
- *
- * \brief Empty user application template
- *
- */
 
-/**
- * \mainpage User Application template doxygen documentation
- *
- * \par Empty user application template
- *
- * Bare minimum empty user application template
- *
- * \par Content
- *
- * -# Include the ASF header files (through asf.h)
- * -# Minimal main function that starts with a call to board_init()
- * -# "Insert application code here" comment
- *
- */
-
-/*
- * Include header files for all drivers that have been imported from
- * Atmel Software Framework (ASF).
- */
 #include <asf.h>
 
 int main (void)
 {
+	// ASF board initialization
+	sysclk_init();
+	pmic_init();
+	irq_initialize_vectors();
+	cpu_irq_enable();
+	
+	udc_start();
+	udc_attach();
+	
 	board_init();
 
-	// Insert application code here, after the board has been initialized.
+	while(1) {
+		
+	}
+
 }

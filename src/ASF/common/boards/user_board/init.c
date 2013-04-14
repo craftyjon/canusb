@@ -9,10 +9,14 @@
 #include <board.h>
 #include <conf_board.h>
 
+#include "pins.h"
+
 void board_init(void)
 {
-	/* This function is meant to contain board-specific initialization code
-	 * for, e.g., the I/O pins. The initialization can rely on application-
-	 * specific board configuration, found in conf_board.h.
-	 */
+	ioport_enable_pin(LED1);
+	ioport_enable_pin(LED2);
+	ioport_set_pin_dir(LED1, IOPORT_DIR_OUTPUT);
+	ioport_set_pin_dir(LED2, IOPORT_DIR_OUTPUT);
+	ioport_set_pin_level(LED1, 1);
+	ioport_set_pin_level(LED2, 1);
 }
