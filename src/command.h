@@ -1,9 +1,9 @@
 #ifndef _COMMAND_H
 #define _COMMAND_H
 
-void process_byte(unsigned char inbyte);
-unsigned char is_valid_command(unsigned char cmd);
-unsigned char get_desired_data_bytes(unsigned char cmd);
+void process_byte(uint8_t inbyte);
+uint8_t is_valid_command(uint8_t cmd);
+uint8_t get_desired_data_bytes(uint8_t cmd);
 void dispatch_command(void);
 
 #define CR 0x0B

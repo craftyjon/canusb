@@ -440,6 +440,12 @@
     <Compile Include="src\globals.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\init.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\pins.h">
       <SubType>compile</SubType>
     </Compile>

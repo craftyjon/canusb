@@ -5,7 +5,7 @@
 #include "pins.h"
 
 
-void process_byte(unsigned char inbyte)
+void process_byte(uint8_t inbyte)
 {
 	udi_cdc_putc('.');
 	switch (_command_state)
@@ -53,7 +53,7 @@ void process_byte(unsigned char inbyte)
 }
 
 
-unsigned char is_valid_command(unsigned char cmd)
+uint8_t is_valid_command(uint8_t cmd)
 {
 	switch (cmd)
 	{
@@ -117,49 +117,106 @@ unsigned char get_desired_data_bytes(unsigned char cmd)
 
 void dispatch_command()
 {
+	uint8_t err = 0;
 	switch (_current_command)
 	{
 		case CMD_SET_BITRATE:
-			udi_cdc_putc(CR);
+			if (_can_initialized) {
+				err = 1;
+			} else {
+				switch (_data_in[0]) {
+					case '0':
+						_can_bitrate = 10000;
+						break;
+					case '1':
+						_can_bitrate = 20000;
+						break;
+					case '2':
+						_can_bitrate = 50000;
+						break;
+					case '3':
+						_can_bitrate = 100000;
+						break;
+					case '4':
+						_can_bitrate = 125000;
+						break;
+					case '5':
+						_can_bitrate = 250000;
+						break;
+					case '6':
+						_can_bitrate = 500000;
+						break;
+					case '7':
+						_can_bitrate = 800000;
+						break;
+					case '8':
+						_can_bitrate = 1000000;
+						break;
+					default:
+						err = 1;
+						break;
+				}
+				
+				if (!err) {
+					_can_initialized = 1;
+				}
+			}	
+			
 			break;
 		
 		case CMD_SET_CUSTOM_BITRATE:
-			udi_cdc_putc(CR);
+			
+			//btr0 = _data_in[0];
+			//btr1 = _data_in[1];
+			// Todo...
 			break;
 		
 		case CMD_OPEN:
-			udi_cdc_putc(CR);
+			if (!_can_initialized || _can_open) {
+				err = 1;
+			} else {
+				_can_open = 1;
+			}
 			break;
 		
 		case CMD_OPEN_LISTEN:
-			udi_cdc_putc(CR);
+			// Todo...
 			break;
 		
 		case CMD_CLOSE:
-			udi_cdc_putc(CR);
+			if (!_can_open) {
+				err = 1;
+			} else {
+				_can_open = 0;
+			}
 			break;
 		
 		case CMD_TRANSMIT_11BIT:
-			udi_cdc_putc(CR);
+			
 			break;
 		
 		case CMD_TRANSMIT_29BIT:
-			udi_cdc_putc(CR);
+			
 			break;
 		
 		case CMD_TRANSMIT_RTR_11BIT:
-			udi_cdc_putc(CR);
+			
 			break;
 		
 		case CMD_TRANSMIT_RTR_29BIT:
-			udi_cdc_putc(CR);
+			
 			break;
 		
 		case CMD_GET_STATUS:
-			udi_cdc_putc(CR);
 			break;
 
 		default:
 			break;
+	}
+	
+	if (err) {
+		udi_cdc_putc(ERROR);
+	} else {
+		udi_cdc_putc(CR);
 	}
 }

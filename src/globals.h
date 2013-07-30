@@ -16,9 +16,15 @@ typedef enum {
 
 EXTERN command_state_type _command_state;
 
-EXTERN unsigned char _current_command;
-EXTERN unsigned char _desired_data_bytes;
-EXTERN unsigned char _data_in[32];
-EXTERN unsigned char _data_in_ptr;
+EXTERN uint8_t _current_command;
+EXTERN uint8_t _desired_data_bytes;
+EXTERN uint8_t _data_in[32];
+EXTERN uint8_t _data_in_ptr;
+
+// CAN state
+EXTERN uint8_t _can_initialized;
+EXTERN uint8_t _can_open;
+EXTERN uint32_t _can_bitrate;
+
 
 #endif

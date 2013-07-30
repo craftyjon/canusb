@@ -7,6 +7,7 @@
 
 #include "pins.h"
 #include "command.h"
+#include "init.h"
 
 int main (void)
 {
@@ -21,13 +22,10 @@ int main (void)
 	
 	board_init();
 	
-	unsigned char usbbyte;
+	uint8_t usbbyte;
 	
-	_command_state = STATE_IDLE;
-	_current_command = 0;
-	_desired_data_bytes = 0;
-	_data_in_ptr = 0;
-	memset(_data_in, 0, sizeof(_data_in));
+	init_comms();
+	init_can();
 	
 	ioport_set_pin_level(LED1, 0);
 	ioport_set_pin_level(LED2, 0);
